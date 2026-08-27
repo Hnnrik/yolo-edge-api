@@ -26,13 +26,19 @@ echo "[INFO] Imagem atual: $PREVIOUS"
 echo "[1/4] Baixando nova imagem..."
 docker compose pull
 
-# ── Sobe a nova versão ───────────────────────────────────────
-# ── Sobe a nova versão ───────────────────────────────────────
+# ── Limpa containers antigos ────────────────────────────────
 echo "[2/4] Parando e removendo containers antigos..."
-docker compose down
+docker compose down --remove-orphans
 
+# Remove qualquer container órfão que possa estar causando conflito
+echo "[2/4] Removendo containers órfãos..."
+docker rm -f yolo-api 2>/dev/null || true
+docker rm -f yolo-client 2>/dev/null || true
+
+# ── Sobe a nova versão ───────────────────────────────────────
 echo "[2/4] Iniciando nova versão..."
 docker compose up -d
+
 # ── Aguarda o serviço estabilizar ────────────────────────────
 echo "[3/4] Aguardando health check ($((HEALTH_RETRIES * HEALTH_WAIT))s max)..."
 SUCCESS=false
