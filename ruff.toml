@@ -1,0 +1,13 @@
+[lint]
+ignore = [
+    "BLE001",      # Do not catch blind exception
+    "ASYNC220",    # Async functions with blocking subprocess
+    "UP022",       # Prefer capture_output
+    "PLW1510",     # subprocess.run without check
+    "S110",        # try-except-pass
+]
+
+[lint.per-file-ignores]
+"app/main.py" = [
+    "ASYNC220",    # Ignorar em app/main.py (funções async com subprocess)
+]
