@@ -22,13 +22,11 @@ PREVIOUS=$(docker inspect yolo-api \
     --format '{{.Config.Image}}' 2>/dev/null || echo "none")
 echo "[INFO] Imagem atual: $PREVIOUS"
 
-# ── Baixa a nova imagem ──────────────────────────────────────
 echo "[1/4] Baixando nova imagem..."
 docker compose pull
-
-# ── Limpa containers antigos ────────────────────────────────
-echo "[2/4] Parando e removendo containers antigos..."
-docker compose down --remove-orphans
+python3 -m dvc pull models/yolo-epi.pt
+echo "[2/4] Iniciando nova versão..."
+docker compose up -d --build
 
 # Remove qualquer container órfão que possa estar causando conflito
 echo "[2/4] Removendo containers órfãos..."
