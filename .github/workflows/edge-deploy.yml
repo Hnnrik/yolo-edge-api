@@ -155,6 +155,17 @@ jobs:
         run: |
           rm -rf dataset/exports/epi-v1
           dvc pull dataset/exports/epi-v1 --force
+          
+      - name: Configurar caminho do dataset para CI
+          run: |
+            sed -i "s|^path:.*|path: $GITHUB_WORKSPACE/dataset/exports/epi-v1|" \
+              dataset/exports/epi-v1/data.yaml
+
+            echo "Dataset configurado:"
+            cat dataset/exports/epi-v1/data.yaml
+
+            echo "Valid images:"
+            ls dataset/exports/epi-v1/valid/images | head
 
       - name: Executar quality gate com dataset customizado
         run: |
