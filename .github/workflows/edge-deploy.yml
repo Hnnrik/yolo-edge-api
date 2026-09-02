@@ -49,7 +49,8 @@ jobs:
           echo "${{ secrets.RPI_SSH_KEY }}" | tr -d '\r' > ~/.ssh/dvc_key
           chmod 600 ~/.ssh/dvc_key
           dvc remote modify --local local_remote keyfile ~/.ssh/dvc_key
-          dvc pull
+          rm -rf dataset/exports/epi-v1
+          dvc pull --force
 
       - name: Disponibiliza o modelo em /app/models (mesmo path usado no Docker)
         run: |
@@ -147,11 +148,14 @@ jobs:
           echo "${{ secrets.RPI_SSH_KEY }}" | tr -d '\r' > ~/.ssh/dvc_key
           chmod 600 ~/.ssh/dvc_key
           dvc remote modify --local local_remote keyfile ~/.ssh/dvc_key
-          dvc pull
+          rm -rf dataset/exports/epi-v1
+          dvc pull --force
+
       - name: Recuperar dataset via DVC
         run: |
           rm -rf dataset/exports/epi-v1
           dvc pull dataset/exports/epi-v1 --force
+
       - name: Executar quality gate com dataset customizado
         run: |
           python scripts/validate_model.py \
