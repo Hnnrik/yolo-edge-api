@@ -1,7 +1,7 @@
-path: C:\Users\User\yolo-edge-api\dataset\exports\epi-v1
-train: train/images
-val: valid/images
-test: test/images
+path: .
+train: dataset/exports/epi-v1/train/images
+val: dataset/exports/epi-v1/valid/images
+test: dataset/exports/epi-v1/test/images
 
 nc: 3
 names: ['capacete', 'colete', 'pessoa']
